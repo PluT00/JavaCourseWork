@@ -24,7 +24,7 @@
                             <a class="nav-link" aria-current="page" href="${pageContext.request.contextPath}/flights">Flights</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" href="${pageContext.request.contextPath}/planes">Planes</a>
+                            <a class="nav-link" href="${pageContext.request.contextPath}/planes">Planes</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="${pageContext.request.contextPath}/users">Users</a>
@@ -33,7 +33,7 @@
                             <a class="nav-link" href="${pageContext.request.contextPath}/companies">Companies</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="${pageContext.request.contextPath}/tickets">Tickets</a>
+                            <a class="nav-link active" href="${pageContext.request.contextPath}/tickets">Tickets</a>
                         </li>
                     </ul>
                     <span class="navbar-text">
@@ -44,43 +44,49 @@
         </nav>
     </div>
 
-    <h2>Update Plane</h2>
+    <h2>Update Flight</h2>
 
-    <form action="" method="post" class="mb-3">
+    <form action="${pageContext.request.contextPath}/ticket_details" method="post" class="mb-3">
         <div class="form-row">
             <div class="col-md-3">
-                <input type="hidden" name="id" value="${plane.getId()}">
+                <input type="hidden" name="id" value="${ticket.getId()}">
                 <input type="hidden" name="action" value="update">
-                <input type="text" value="${plane.getManufacturer()}" name="manufacturer" class="form-control" placeholder="Manufacturer" required> <br>
-                <input type="text" value="${plane.getModel()}" name="model" class="form-control" placeholder="Model" required> <br>
-                <input type="number" value="${plane.getCapacity()}" name="capacity" class="form-control" placeholder="Capacity">
+                <select class="form-select" name="user" id="user">
+                    <c:forEach var="user" items="${users}">
+                        <option value="${user.getUsername()}">${user.getUsername()}</option>
+                    </c:forEach>
+                </select> <br>
+                <select class="form-select" name="flight" id="flight">
+                    <c:forEach var="flight" items="${flights}">
+                        <option value="${flight.getId()}">${flight.getId()} | ${flight.getSource()} -> ${flight.getDestination()}</option>
+                    </c:forEach>
+                </select>
             </div>
         </div>
         <br>
-        <button type="submit" class="btn btn-primary mt-2">Update Plane</button>
+        <button type="submit" class="btn btn-primary mt-2">Update Ticket</button>
     </form>
 
-    <form action="${pageContext.request.contextPath}/plane_details" method="post">
-        <input type="hidden" name="id" value="${plane.getId()}">
+    <form action="${pageContext.request.contextPath}/ticket_details" method="post">
+        <input type="hidden" name="id" value="${ticket.id}">
         <input type="hidden" name="action" value="delete">
-        <button class="btn btn-danger mt-2" type="submit">Delete Plane</button>
+        <button class="btn btn-danger mt-2" type="submit">Delete Ticket</button>
     </form>
 
     <table class="table mt-8">
         <thead>
         <tr>
             <th>ID</th>
-            <th>Manufacturer</th>
-            <th>Model</th>
-            <th>Capacity</th>
+            <th>User</th>
+            <th>Flight</th>
         </tr>
         </thead>
         <tbody>
             <tr>
-                <td><a href="/plane_details?id=${plane.getId()}">${plane.getId()}</a></td>
-                <td>${plane.getManufacturer()}</td>
-                <td>${plane.getModel()}</td>
-                <td>${plane.getCapacity()}</td>
+
+                <td><a href="/ticket_details?id=${ticket.getId()}">${ticket.getId()}</a></td>
+                <td><a href="/user_details?id=${ticket.getUser().getId()}">${ticket.getUser().getUsername()}</a></td>
+                <td><a href="/flight_details?id=${ticket.getFlight().getId()}">${ticket.getFlight().getId()} | ${ticket.getFlight().getSource()} -> ${ticket.getFlight().getDestination()}</a></td>
             </tr>
         </tbody>
     </table>

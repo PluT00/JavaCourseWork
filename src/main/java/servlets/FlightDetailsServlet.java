@@ -1,9 +1,12 @@
 package servlets;
 
+import model.Company;
 import model.Flight;
 import model.Plane;
+import services.CompanyService;
 import services.FlightService;
 import services.PlaneService;
+import services.db.CompanyDAO;
 import services.db.DatabaseService;
 import services.db.FlightDAO;
 import services.db.PlaneDAO;
@@ -24,6 +27,7 @@ import java.util.List;
 public class FlightDetailsServlet extends HttpServlet {
     private final FlightService flightService = new FlightService(new FlightDAO(new DatabaseService()));
     private final PlaneService planeService = new PlaneService(new PlaneDAO(new DatabaseService()));
+    private final CompanyService companyService = new CompanyService(new CompanyDAO(new DatabaseService()));
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -33,8 +37,10 @@ public class FlightDetailsServlet extends HttpServlet {
                 int id = Integer.parseInt(request.getParameter("id"));
                 Flight flight = flightService.getFlightById(id);
                 List<Plane> planes = planeService.getAllPlanes();
+                List<Company> companies = companyService.getAllCompanies();
                 request.setAttribute("flight", flight);
                 request.setAttribute("planes", planes);
+                request.setAttribute("companies", companies);
                 request.getRequestDispatcher("pages/flightDetails.jsp").forward(request, response);
             } else {
                 response.sendRedirect(request.getContextPath() + "/flights");
@@ -59,7 +65,8 @@ public class FlightDetailsServlet extends HttpServlet {
                     Timestamp arrivalTime = Timestamp.valueOf(LocalDateTime.parse(request.getParameter("arrivalTime"), formatter));
                     boolean isDeparture = request.getParameter("isDeparture") != null;
                     Plane plane = planeService.getPlaneByModel(request.getParameter("planeModel"));
-                    Flight newFlight = new Flight(id, source, destination, departureTime, arrivalTime, plane, isDeparture);
+                    Company company = companyService.getCompanyByName(request.getParameter("companyName"));
+                    Flight newFlight = new Flight(id, source, destination, departureTime, arrivalTime, plane, company, isDeparture);
                     flightService.updateFlight(newFlight);
                 } else if ("delete".equals(action)) {
                     flightService.deleteFlight(id);

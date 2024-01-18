@@ -3,10 +3,12 @@ package model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class Plane {
     private int id;
     private String manufacturer;
@@ -17,15 +19,5 @@ public class Plane {
         this.manufacturer = manufacturer;
         this.model = model;
         this.capacity = capacity;
-    }
-
-    @Override
-    public String toString() {
-        return "Plane{" +
-                "id=" + id +
-                ", manufacturer='" + manufacturer + '\'' +
-                ", model='" + model + '\'' +
-                ", capacity=" + capacity +
-                '}';
     }
 }

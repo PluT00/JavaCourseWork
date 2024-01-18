@@ -24,13 +24,13 @@
                             <a class="nav-link" aria-current="page" href="${pageContext.request.contextPath}/flights">Flights</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" href="${pageContext.request.contextPath}/planes">Planes</a>
+                            <a class="nav-link" href="${pageContext.request.contextPath}/planes">Planes</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="${pageContext.request.contextPath}/users">Users</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="${pageContext.request.contextPath}/companies">Companies</a>
+                            <a class="nav-link active" href="${pageContext.request.contextPath}/companies">Companies</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="${pageContext.request.contextPath}/tickets">Tickets</a>
@@ -44,44 +44,39 @@
         </nav>
     </div>
 
-    <h2>Update Plane</h2>
+    <h2>Update Company</h2>
 
     <form action="" method="post" class="mb-3">
         <div class="form-row">
             <div class="col-md-3">
-                <input type="hidden" name="id" value="${plane.getId()}">
+                <input type="hidden" name="id" value="${company.getId()}">
                 <input type="hidden" name="action" value="update">
-                <input type="text" value="${plane.getManufacturer()}" name="manufacturer" class="form-control" placeholder="Manufacturer" required> <br>
-                <input type="text" value="${plane.getModel()}" name="model" class="form-control" placeholder="Model" required> <br>
-                <input type="number" value="${plane.getCapacity()}" name="capacity" class="form-control" placeholder="Capacity">
+                <input type="text" value="${company.getName()}" name="name" class="form-control" placeholder="Name">
             </div>
         </div>
         <br>
-        <button type="submit" class="btn btn-primary mt-2">Update Plane</button>
+        <button type="submit" class="btn btn-primary mt-2">Update Company</button>
     </form>
 
-    <form action="${pageContext.request.contextPath}/plane_details" method="post">
-        <input type="hidden" name="id" value="${plane.getId()}">
+    <form action="${pageContext.request.contextPath}/company_details" method="post">
+        <input type="hidden" name="id" value="${company.getId()}">
         <input type="hidden" name="action" value="delete">
-        <button class="btn btn-danger mt-2" type="submit">Delete Plane</button>
+        <button class="btn btn-danger mt-2" type="submit">Delete Company</button>
     </form>
 
     <table class="table mt-8">
         <thead>
         <tr>
             <th>ID</th>
-            <th>Manufacturer</th>
-            <th>Model</th>
-            <th>Capacity</th>
+            <th>Name</th>
         </tr>
         </thead>
         <tbody>
-            <tr>
-                <td><a href="/plane_details?id=${plane.getId()}">${plane.getId()}</a></td>
-                <td>${plane.getManufacturer()}</td>
-                <td>${plane.getModel()}</td>
-                <td>${plane.getCapacity()}</td>
-            </tr>
+        <tr>
+
+            <td><a href="/company_details?id=${company.getId()}">${company.getId()}</a></td>
+            <td>${company.getName()}</td>
+        </tr>
         </tbody>
     </table>
 </div>

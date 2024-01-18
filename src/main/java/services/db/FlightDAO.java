@@ -1,7 +1,7 @@
 package services.db;
 
 import model.Flight;
-import model.Plane;
+import services.CompanyService;
 import services.PlaneService;
 
 import java.sql.Connection;
@@ -9,12 +9,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class FlightDAO {
     private DatabaseService databaseService;
     private PlaneService planeService;
+    private CompanyService companyService = new CompanyService(new CompanyDAO(new DatabaseService()));
 
     public FlightDAO(DatabaseService databaseService) {
         this.databaseService = databaseService;
@@ -23,14 +23,15 @@ public class FlightDAO {
 
     public void addFlight(Flight flight) {
         try (Connection connection = databaseService.getConnection()) {
-            String query = "INSERT INTO flights (source, destination, departure_time, arrival_time, plane, is_departure) VALUES (?, ?, ?, ?, ?, ?)";
+            String query = "INSERT INTO flights (source, destination, departure_time, arrival_time, plane, company, is_departure) VALUES (?, ?, ?, ?, ?, ?)";
             try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
                 preparedStatement.setString(1, flight.getSource());
                 preparedStatement.setString(2, flight.getDestination());
                 preparedStatement.setTimestamp(3, flight.getDepartureTime());
                 preparedStatement.setTimestamp(4, flight.getArrivalTime());
                 preparedStatement.setString(5, flight.getPlane().getModel());
-                preparedStatement.setBoolean(6, flight.isDeparture());
+                preparedStatement.setInt(6, flight.getCompany().getId());
+                preparedStatement.setBoolean(7, flight.isDeparture());
                 preparedStatement.executeUpdate();
             }
         } catch (SQLException e) {
@@ -52,6 +53,7 @@ public class FlightDAO {
                         flight.setDepartureTime(resultSet.getTimestamp("departure_time"));
                         flight.setArrivalTime(resultSet.getTimestamp("arrival_time"));
                         flight.setPlane(planeService.getPlaneByModel(resultSet.getString("plane")));
+                        flight.setCompany(companyService.getCompanyById(resultSet.getInt("company")));
                         flight.setDeparture(resultSet.getBoolean("is_departure"));
                         flights.add(flight);
                     }
@@ -65,15 +67,16 @@ public class FlightDAO {
 
     public void updateFlight(Flight flight) {
         try (Connection connection = databaseService.getConnection()) {
-            String query = "UPDATE flights SET source=?, destination=?, departure_time=?, arrival_time=?, plane=?, is_departure=? WHERE id=?";
+            String query = "UPDATE flights SET source=?, destination=?, departure_time=?, arrival_time=?, plane=?, company=?, is_departure=? WHERE id=?";
             try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
                 preparedStatement.setString(1, flight.getSource());
                 preparedStatement.setString(2, flight.getDestination());
                 preparedStatement.setTimestamp(3, flight.getDepartureTime());
                 preparedStatement.setTimestamp(4, flight.getArrivalTime());
                 preparedStatement.setString(5, flight.getPlane().getModel());
-                preparedStatement.setBoolean(6, flight.isDeparture());
-                preparedStatement.setInt(7, flight.getId());
+                preparedStatement.setInt(6, flight.getCompany().getId());
+                preparedStatement.setBoolean(7, flight.isDeparture());
+                preparedStatement.setInt(8, flight.getId());
                 preparedStatement.executeUpdate();
             }
         } catch (SQLException e) {
@@ -107,6 +110,7 @@ public class FlightDAO {
                         flight.setDepartureTime(resultSet.getTimestamp("departure_time"));
                         flight.setArrivalTime(resultSet.getTimestamp("arrival_time"));
                         flight.setPlane(planeService.getPlaneByModel(resultSet.getString("plane")));
+                        flight.setCompany(companyService.getCompanyById(resultSet.getInt("company")));
                         flight.setDeparture(resultSet.getBoolean("is_departure"));
                         return flight;
                     }

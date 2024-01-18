@@ -29,6 +29,12 @@
                         <li class="nav-item">
                             <a class="nav-link" href="${pageContext.request.contextPath}/users">Users</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="${pageContext.request.contextPath}/companies">Companies</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="${pageContext.request.contextPath}/tickets">Tickets</a>
+                        </li>
                     </ul>
                     <span class="navbar-text">
                         <a class="nav-link" href="${pageContext.request.contextPath}/logout">Logout</a>
@@ -45,6 +51,8 @@
                 <li><h5><a href="${pageContext.request.contextPath}/flights">Flights</a></h5></li>
                 <li><h5><a href="${pageContext.request.contextPath}/planes">Planes</a></h5></li>
                 <li><h5><a href="${pageContext.request.contextPath}/users">Users</a></h5></li>
+                <li><h5><a href="${pageContext.request.contextPath}/companies">Companies</a></h5></li>
+                <li><h5><a href="${pageContext.request.contextPath}/tickets">Tickets</a></h5></li>
             </ul>
         </div>
     </div>

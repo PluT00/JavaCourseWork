@@ -29,6 +29,12 @@
                         <li class="nav-item">
                             <a class="nav-link" href="${pageContext.request.contextPath}/users">Users</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="${pageContext.request.contextPath}/companies">Companies</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="${pageContext.request.contextPath}/tickets">Tickets</a>
+                        </li>
                     </ul>
                     <span class="navbar-text">
                         <a class="nav-link" href="${pageContext.request.contextPath}/logout">Logout</a>
@@ -50,6 +56,11 @@
                 <select class="form-select" name="planeModel" id="planeModel">
                     <c:forEach var="plane" items="${planes}">
                         <option value="${plane.getModel()}">${plane.getManufacturer()} ${plane.getModel()}</option>
+                    </c:forEach>
+                </select> <br>
+                <select class="form-select" name="companyName" id="companyName">
+                    <c:forEach var="company" items="${companies}">
+                        <option value="${company.getName()}">${company.getName()}</option>
                     </c:forEach>
                 </select>
                 <br>
@@ -76,19 +87,20 @@
             <th>Departure Time</th>
             <th>Arrival Time</th>
             <th>Plane</th>
+            <th>Company</th>
             <th>Is Departure</th>
         </tr>
         </thead>
         <tbody>
         <c:forEach var="flight" items="${flights}">
             <tr>
-
                 <td><a href="/flight_details?id=${flight.getId()}">${flight.getId()}</a></td>
                 <td>${flight.getSource()}</td>
                 <td>${flight.getDestination()}</td>
                 <td>${flight.getDepartureTime()}</td>
                 <td>${flight.getArrivalTime()}</td>
                 <td>${flight.getPlane().getModel()}</td>
+                <td>${flight.getCompany().getName()}</td>
                 <td>${flight.isDeparture()}</td>
             </tr>
         </c:forEach>

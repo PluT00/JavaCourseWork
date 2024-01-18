@@ -29,6 +29,12 @@
                         <li class="nav-item">
                             <a class="nav-link" href="${pageContext.request.contextPath}/users">Users</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="${pageContext.request.contextPath}/companies">Companies</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="${pageContext.request.contextPath}/tickets">Tickets</a>
+                        </li>
                     </ul>
                     <span class="navbar-text">
                         <a class="nav-link" href="${pageContext.request.contextPath}/logout">Logout</a>

@@ -1,9 +1,12 @@
 package servlets;
 
+import model.Company;
 import model.Flight;
 import model.Plane;
+import services.CompanyService;
 import services.FlightService;
 import services.PlaneService;
+import services.db.CompanyDAO;
 import services.db.DatabaseService;
 import services.db.FlightDAO;
 import services.db.PlaneDAO;
@@ -24,14 +27,17 @@ import java.util.List;
 public class FlightListServlet extends HttpServlet {
     private final FlightService flightService = new FlightService(new FlightDAO(new DatabaseService()));
     private final PlaneService planeService = new PlaneService(new PlaneDAO(new DatabaseService()));
+    private final CompanyService companyService = new CompanyService(new CompanyDAO(new DatabaseService()));
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false);
         if (session != null && session.getAttribute("username") != null) {
             List<Flight> flights = flightService.getAllFlights();
             List<Plane> planes = planeService.getAllPlanes();
+            List<Company> companies = companyService.getAllCompanies();
             request.setAttribute("flights", flights);
             request.setAttribute("planes", planes);
+            request.setAttribute("companies", companies);
             request.getRequestDispatcher("pages/flightList.jsp").forward(request, response);
         } else {
             response.sendRedirect("/signin");
@@ -48,7 +54,8 @@ public class FlightListServlet extends HttpServlet {
             Timestamp arrivalTime = Timestamp.valueOf(LocalDateTime.parse(request.getParameter("arrivalTime"), formatter));
             boolean isDeparture = request.getParameter("isDeparture") != null;
             Plane plane = planeService.getPlaneByModel(request.getParameter("planeModel"));
-            Flight newFlight = new Flight(source, destination, departureTime, arrivalTime, plane, isDeparture);
+            Company company = companyService.getCompanyByName(request.getParameter("companyName"));
+            Flight newFlight = new Flight(source, destination, departureTime, arrivalTime, plane, company, isDeparture);
             flightService.addFlight(newFlight);
 
             response.sendRedirect(request.getContextPath() + "/flights");

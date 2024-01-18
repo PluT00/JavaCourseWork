@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Flight Details</title>
+    <title>Flight List</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 </head>
 <body>
@@ -24,13 +24,13 @@
                             <a class="nav-link" aria-current="page" href="${pageContext.request.contextPath}/flights">Flights</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" href="${pageContext.request.contextPath}/planes">Planes</a>
+                            <a class="nav-link" href="${pageContext.request.contextPath}/planes">Planes</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="${pageContext.request.contextPath}/users">Users</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="${pageContext.request.contextPath}/companies">Companies</a>
+                            <a class="nav-link active" href="${pageContext.request.contextPath}/companies">Companies</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="${pageContext.request.contextPath}/tickets">Tickets</a>
@@ -44,45 +44,39 @@
         </nav>
     </div>
 
-    <h2>Update Plane</h2>
+    <h2>Create New Company</h2>
 
     <form action="" method="post" class="mb-3">
         <div class="form-row">
             <div class="col-md-3">
-                <input type="hidden" name="id" value="${plane.getId()}">
-                <input type="hidden" name="action" value="update">
-                <input type="text" value="${plane.getManufacturer()}" name="manufacturer" class="form-control" placeholder="Manufacturer" required> <br>
-                <input type="text" value="${plane.getModel()}" name="model" class="form-control" placeholder="Model" required> <br>
-                <input type="number" value="${plane.getCapacity()}" name="capacity" class="form-control" placeholder="Capacity">
+                <input type="text" name="name" class="form-control" placeholder="Name" required>
             </div>
         </div>
-        <br>
-        <button type="submit" class="btn btn-primary mt-2">Update Plane</button>
+        <button type="submit" class="btn btn-primary mt-2">Create Company</button>
     </form>
 
-    <form action="${pageContext.request.contextPath}/plane_details" method="post">
-        <input type="hidden" name="id" value="${plane.getId()}">
-        <input type="hidden" name="action" value="delete">
-        <button class="btn btn-danger mt-2" type="submit">Delete Plane</button>
-    </form>
+    <h2>Companies List</h2>
 
     <table class="table mt-8">
         <thead>
         <tr>
             <th>ID</th>
-            <th>Manufacturer</th>
-            <th>Model</th>
-            <th>Capacity</th>
+            <th>Name</th>
         </tr>
         </thead>
         <tbody>
+        <c:forEach var="company" items="${companies}">
             <tr>
-                <td><a href="/plane_details?id=${plane.getId()}">${plane.getId()}</a></td>
-                <td>${plane.getManufacturer()}</td>
-                <td>${plane.getModel()}</td>
-                <td>${plane.getCapacity()}</td>
+
+                <td><a href="/company_details?id=${company.getId()}">${company.getId()}</a></td>
+                <td>${company.getName()}</td>
             </tr>
+        </c:forEach>
         </tbody>
     </table>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
 </body>
