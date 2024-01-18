@@ -51,7 +51,7 @@
                     <input type="password" class="form-control" id="password" name="password" required>
                 </div>
                 <br>
-                <button type="submit" class="btn btn-primary">Login</button>
+                <button type="submit" class="btn btn-primary">Register</button>
             </form>
         </div>
     </div>
